@@ -28,7 +28,7 @@ This header information plays a crucial role in determining if requests originat
 
 ## The Standard cURL User Agent
 
-Similar to most HTTP clients, [cURL](https://curl.se/) automatically includes a User-Agent header when sending HTTP requests. The default cURL user agent follows this format:
+Similar to most HTTP clients, [cURL](https://brightdata.com/blog/web-data/what-is-curl) automatically includes a User-Agent header when sending HTTP requests. The default cURL user agent follows this format:
 
 ```
 curl/X.Y.Z 
