@@ -197,49 +197,27 @@ This implementation requires slight code variations between Unix-based systems a
 First, collect legitimate user agents from resources like [User Agent String.com](https://useragentstring.com/pages/useragentstring.php) and store them in an array:
 
 ```
-user_agents=(
-
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.5; rv:126.0) Gecko/20100101 Firefox/126.0"
-
-    # Add more user agents here
-
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
-
-)
+user_agents=( 
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" 
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.5; rv:126.0) Gecko/20100101 Firefox/126.0" 
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0" 
+) 
 ```
 
 Next, create a function that randomly selects from this list using the [RANDOM](https://tldp.org/LDP/abs/html/randomvar.html) variable:
 
 ```sh
-get_random_user_agent() {
-
-    # number of user agents in the list
-
-    local count=${#user_agents[@]}
-
-    # generate a RANDOM number from 0 to count
-
-    local index=$((RANDOM % count))
-
-    # return the randomly extracted user agent string
-
-    echo "${user_agents[$index]}"
-
-}
+get_random_user_agent() { 
+    local count=${#user_agents[@]} 
+    local index=$((RANDOM % count)) 
+    echo "${user_agents[$index]}" 
+} 
 ```
 
 Now invoke the function, retrieve a randomized user agent, and incorporate it into your cURL request:
 
 ```sh
-# get the random user agent
-
-user_agent=$(get_random_user_agent)
-
-# perform a cURL request to the given URL
-
-# using the random user agent
+user_agent=$(get_random_user_agent) 
 
 curl -A "$user_agent" "https://httpbin.io/user-agent"
 ```
@@ -250,50 +228,43 @@ curl -A "$user_agent" "https://httpbin.io/user-agent"
 Combining these elements creates this complete bash script:
 
 ```sh
-#!/bin/bash
+#!/bin/bash 
 
-# list of user agent strings
+user_agents=( 
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" 
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.5; rv:126.0) Gecko/20100101 Firefox/126.0" 
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0" 
+) 
 
-user_agents=(
+get_random_user_agent() { 
+    local count=${#user_agents[@]} 
+    local index=$((RANDOM % count)) 
+    echo "${user_agents[$index]}" 
+} 
 
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.5; rv:126.0) Gecko/20100101 Firefox/126.0"
-
-    # ...
-
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
-
-)
-
-get_random_user_agent() {
-
-    # number of user agents in the list
-
-    local count=${#user_agents[@]}
-
-    # generate a RANDOM number from 0 to count
-
-    local index=$((RANDOM % count))
-
-    # return the randomly extracted user agent string
-
-    echo "${user_agents[$index]}"
-
-}
-
-# get the random user agent
-
-user_agent=$(get_random_user_agent)
-
-# perform a cURL request to the given URL
-
-# using the random user agent
+user_agent=$(get_random_user_agent) 
 
 curl -A "$user_agent" "https://httpbin.io/user-agent"
 ```
 
 Run this script multiple times, and you'll notice a different user agent appears each time—mission accomplished!
+
+Output:
+
+```ssh
+arturk@maint-xubuntu20:~/Support/Sandbox/curl-user-agent$ ./random_ua.sh 
+{
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.5; rv:126.0) Gecko/20100101 Firefox/126.0"
+}
+arturk@maint-xubuntu20:~/Support/Sandbox/curl-user-agent$ ./random_ua.sh 
+{
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.5; rv:126.0) Gecko/20100101 Firefox/126.0"
+}
+arturk@maint-xubuntu20:~/Support/Sandbox/curl-user-agent$ ./random_ua.sh 
+{
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
+}
+```
 
 ### Implementation in PowerShell
 
@@ -350,48 +321,63 @@ curl.exe -A "$user_agent" "https://httpbin.io/user-agent"
 Bringing everything together produces this complete PowerShell script:
 
 ```sh
-# list of user agents
+# list of user agents 
 
-$user_agents = @(
+$user_agents = @( 
 
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" 
 
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.5; rv:126.0) Gecko/20100101 Firefox/126.0"
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.5; rv:126.0) Gecko/20100101 Firefox/126.0" 
 
-    # ...
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0" 
 
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0"
+) 
 
-)
+function Get-RandomUserAgent { 
 
-function Get-RandomUserAgent {
+    # number of user agents in the list 
 
-    # number of user agents in the list
+    $count = $user_agents.Count 
 
-    $count = $user_agents.Count
+    # generate a random number from 0 to $count 
 
-    # generate a random number from 0 to $count
+    $index = Get-Random -Maximum $count 
 
-    $index = Get-Random -Maximum $count
+    # return the randomly extracted user agent 
 
-    # return the randomly extracted user agent
+    return $user_agents[$index] 
 
-    return $user_agents[$index]
+} 
 
-}
+# get a random user agent 
 
-# get a random user agent
-
-$user_agent = Get-RandomUserAgent
+$user_agent = Get-RandomUserAgent 
 
 # make an HTTP request to the given URL 
 
-# using the random user agent
+# using the random user agent 
 
 curl.exe -A "$user_agent" "https://httpbin.io/user-agent"
 ```
 
 Save this as a .ps1 file and execute it several times. Each execution will display a different user agent string.
+
+Output:
+
+```ssh
+PS C:\Users\user\Desktop\marketing\curl-user-agent> .\1.ps1
+{
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+}
+PS C:\Users\user\Desktop\marketing\curl-user-agent> .\1.ps1
+{
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+}
+PS C:\Users\user\Desktop\marketing\curl-user-agent> .\1.ps1
+{
+  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.5; rv:126.0) Gecko/20100101 Firefox/126.0"
+}
+```
 
 ## Final Thoughts
 
